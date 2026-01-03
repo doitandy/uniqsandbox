@@ -7,3 +7,48 @@ theme = 'PaperMod'
     env = 'production'
     title = 'UNIQsandbox'
     description = 'Where Legacy Meets Logic'
+baseURL = 'https://UNIQsandbox.com'
+languageCode = 'en-us'
+title = 'UNIQsandbox | Architecture of Logic'
+theme = 'PaperMod'
+
+[params]
+    env = 'production'
+    title = 'UNIQsandbox'
+    description = 'Where Legacy Meets Logic: Bridging 20 Years of Architecture with AI'
+    author = 'doitandy'
+    
+    # 홈 화면 프로필 설정
+    [params.profileMode]
+        enabled = true
+        title = 'UNIQsandbox'
+        subtitle = 'IT Architect | 1,100+ Books | Books & Barbells'
+        [params.profileMode.buttons]
+            [[params.profileMode.buttons]]
+                name = 'Archives'
+                url = '/archives'
+            [[params.profileMode.buttons]]
+                name = 'Lab Notes'
+                url = '/lab'
+
+    # 소셜 링크 (아키텍트님의 계정 연결)
+    [[params.socialIcons]]
+        name = 'instagram'
+        url = 'https://instagram.com/booksandbarbells'
+    [[params.socialIcons]]
+        name = 'github'
+        url = 'https://github.com/doitandy'
+
+# 상단 메뉴 구성
+[[menu.main]]
+    name = 'Thought'
+    url = '/thought'
+    weight = 10
+[[menu.main]]
+    name = 'GTM'
+    url = '/gtm'
+    weight = 20
+[[menu.main]]
+    name = 'Lab'
+    url = '/lab'
+    weight = 30
