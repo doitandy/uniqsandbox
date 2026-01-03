@@ -12,12 +12,6 @@ languageCode = 'en-us'
 title = 'UNIQsandbox | Architecture of Logic'
 theme = 'PaperMod'
 
-[params]
-    env = 'production'
-    title = 'UNIQsandbox'
-    description = 'Where Legacy Meets Logic: Bridging 20 Years of Architecture with AI'
-    author = 'doitandy'
-    
     # 홈 화면 프로필 설정
     [params.profileMode]
         enabled = true
