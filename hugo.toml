@@ -1,0 +1,9 @@
+baseURL = 'https://UNIQsandbox.com'
+languageCode = 'en-us'
+title = 'UNIQsandbox'
+theme = 'PaperMod'
+
+[params]
+    env = 'production'
+    title = 'UNIQsandbox'
+    description = 'Where Legacy Meets Logic'
