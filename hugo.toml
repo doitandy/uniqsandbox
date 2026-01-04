@@ -35,9 +35,6 @@ theme = 'PaperMod'
     [[params.socialIcons]]
         name = "instagram"
         url = "https://instagram.com/booksandbarbells"
-    [[params.socialIcons]]
-        name = "github"
-        url = "https://github.com/doitandy"
 
 [[menu.main]]
     name = 'Thought'
