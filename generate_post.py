@@ -12,14 +12,17 @@ def create_hugo_post(index, title, category, body, source_refs):
     dt = datetime.datetime.now() - datetime.timedelta(days=days_ago, hours=index%24)
     date_str = dt.strftime("%Y-%m-%dT%H:%M:%S-07:00")
     
+    # [수정 핵심] title이 문자열인지 확실히 확인 후 공백 제거
+    clean_title = str(title).strip()
+    
     # 파일명 생성 (특수문자 제거 및 길이 제한)
-    safe_title = "".join([c if c.isalnum() or c.isspace() else "" for c in title]).strip().replace(" ", "-")
+    safe_title = "".join([c if c.isalnum() or c.isspace() else "" for c in clean_title]).strip().replace(" ", "-")
     safe_title = safe_title[:50]
     filename = f"{OUTPUT_DIR}/{index:03d}-{safe_title}.md"
     
     # 태그 자동 매핑
     tags = ["Insight", "BookNote"]
-    cat_lower = category.lower().strip()
+    cat_lower = str(category).lower().strip()
     
     if "business" in cat_lower or "trend" in cat_lower or "sales" in cat_lower:
         tags.extend(["Business", "Trend"])
@@ -36,14 +39,14 @@ def create_hugo_post(index, title, category, body, source_refs):
 
     # MD 내용 작성
     md_content = f"""---
-title: "{title.strip()}"
+title: "{clean_title}"
 date: {date_str}
 draft: false
 categories: ["Intellectual Archive"]
 tags: [{tag_str}]
 ---
 
-{body.strip()}
+{str(body).strip()}
 
 <!-- Source References: {source_refs} -->
 """
@@ -76,15 +79,16 @@ def main():
                 parts = line.split("|||")
                 # 안전장치: 3덩어리 이상일 때만 처리
                 if len(parts) >= 3:
-                    title = parts       # 첫 번째 덩어리: 제목
-                    category = parts[2]    # 두 번째 덩어리: 카테고리
-                    body_part = parts[3]   # 세 번째 덩어리: 본문 (여기가 문제였습니다)
+                    # [여기입니다!] 인덱스 번호를 명확히 지정
+                    title = parts      # 첫 번째 칸: 제목
+                    category = parts[1]   # 두 번째 칸: 카테고리
+                    body_part = parts[2]  # 세 번째 칸: 본문
                     
                     # 본문 내에 출처 표기([...])가 있는지 확인하여 분리
                     if "[" in body_part:
                         temp = body_part.split("[", 1) 
                         body_text = temp
-                        source_refs = "[" + temp[2]
+                        source_refs = "[" + temp[1]
                     else:
                         body_text = body_part
                         source_refs = "BookNote Archive"
