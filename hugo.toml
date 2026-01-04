@@ -24,7 +24,7 @@ theme = 'PaperMod'
     # 하단 저작권 문구 (LA 기반 정체성 강조)
     [params.footer]
         enabled = true
-        text = "© 2026 UNIQsandbox | Based in Los Angeles"
+        text = "© 2026 UNIQsandbox | Powered by **UNIQSTUFFCO** | **UNIQlogic.xyz**"
 
     [params.profileMode]
         enabled = true
