@@ -7,11 +7,37 @@ theme = 'PaperMod'
     env = 'production'
     author = 'doitandy'
     description = 'Where Legacy Meets Logic'
+    
+# 푸터(Footer) 설정
+    showFullTextContent = false
+    ShowReadingTime = true
+    ShowShareButtons = true
+    ShowPostNavLinks = true
+    ShowBreadCrumbs = true
+    ShowCodeCopyButtons = true
+    disableSpecial1stPost = false
+    disableScrollToTop = false
+    comments = false
+    hidemenu = false
+    showtoc = true
+    
+    # 하단 저작권 문구 (LA 기반 정체성 강조)
+    [params.footer]
+        enabled = true
+        text = "© 2026 UNIQsandbox | Based in Los Angeles"
 
     [params.profileMode]
         enabled = true
         title = 'UNIQsandbox'
         subtitle = 'IT Architect | 1,100+ Books | Books & Barbells'
+
+# 소셜 아이콘 (푸터와 연결됨)
+    [[params.socialIcons]]
+        name = "instagram"
+        url = "https://instagram.com/booksandbarbells"
+    [[params.socialIcons]]
+        name = "github"
+        url = "https://github.com/doitandy"
 
 [[menu.main]]
     name = 'Thought'
