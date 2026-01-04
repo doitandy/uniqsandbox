@@ -2,35 +2,35 @@ import os
 import datetime
 import random
 
-# 설정: Hugo 콘텐츠 경로 (사용자 환경에 맞게 수정)
+# 설정: 프로젝트 루트에서 실행한다고 가정
 OUTPUT_DIR = "content/thought"
 INPUT_FILES = ["data_business.txt", "data_mindset.txt", "data_life.txt"]
 
 def create_hugo_post(index, title, category, body, source_refs):
-    # 날짜를 분산시켜서 포스팅이 한꺼번에 몰리지 않은 것처럼 보이게 함
-    # 최근 60일간의 날짜 중 하나를 랜덤 배정 (혹은 순차적으로 하려면 수정 가능)
+    # 날짜 분산 (최근 60일 내 랜덤 배정 효과)
     days_ago = index % 60 
     dt = datetime.datetime.now() - datetime.timedelta(days=days_ago, hours=index%24)
     date_str = dt.strftime("%Y-%m-%dT%H:%M:%S-07:00")
     
-    # URL 친화적인 파일명 (영문, 숫자, 하이픈만)
+    # 파일명 생성 (특수문자 제거 및 길이 제한)
     safe_title = "".join([c if c.isalnum() or c.isspace() else "" for c in title]).strip().replace(" ", "-")
+    safe_title = safe_title[:50]
     filename = f"{OUTPUT_DIR}/{index:03d}-{safe_title}.md"
     
-    # 카테고리에 따른 태그 자동 매핑
+    # 태그 자동 매핑
     tags = ["Insight", "BookNote"]
-    cat_lower = category.lower()
+    cat_lower = category.lower().strip()
     
-    if "business" in cat_lower or "marketing" in cat_lower or "sales" in cat_lower:
-        tags.extend(["Business", "Strategy"])
-    if "mindset" in cat_lower or "philosophy" in cat_lower:
+    if "business" in cat_lower or "trend" in cat_lower or "sales" in cat_lower:
+        tags.extend(["Business", "Trend"])
+    elif "mindset" in cat_lower or "philosophy" in cat_lower:
         tags.extend(["Mindset", "Wisdom"])
-    if "health" in cat_lower or "biohacking" in cat_lower:
+    elif "health" in cat_lower or "bio" in cat_lower:
         tags.extend(["Health", "Biohacking"])
-    if "parenting" in cat_lower:
+    elif "parenting" in cat_lower:
         tags.append("Parenting")
     
-    # 중복 태그 제거 및 포맷팅
+    # 중복 태그 제거
     tags = list(set(tags))
     tag_str = ", ".join([f'"{t}"' for t in tags])
 
@@ -53,8 +53,12 @@ tags: [{tag_str}]
     print(f"Created: {filename}")
 
 def main():
+    # 출력 폴더가 없으면 생성
     if not os.path.exists(OUTPUT_DIR):
-        os.makedirs(OUTPUT_DIR)
+        try:
+            os.makedirs(OUTPUT_DIR)
+        except FileExistsError:
+            pass
 
     total_count = 1
     
@@ -70,15 +74,17 @@ def main():
         for line in lines:
             if "|||" in line:
                 parts = line.split("|||")
+                # 안전장치: 3덩어리 이상일 때만 처리
                 if len(parts) >= 3:
-                    title = parts
-                    category = parts[11]
-                    body_part = parts[23]
+                    title = parts       # 첫 번째 덩어리: 제목
+                    category = parts[2]    # 두 번째 덩어리: 카테고리
+                    body_part = parts[3]   # 세 번째 덩어리: 본문 (여기가 문제였습니다)
                     
-                    # 소스 인용구 분리 (예: [1], [2])
+                    # 본문 내에 출처 표기([...])가 있는지 확인하여 분리
                     if "[" in body_part:
-                        body_text = body_part.split("[")
-                        source_refs = "[" + body_part.split("[", 1)[11]
+                        temp = body_part.split("[", 1) 
+                        body_text = temp
+                        source_refs = "[" + temp[2]
                     else:
                         body_text = body_part
                         source_refs = "BookNote Archive"
